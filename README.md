@@ -7,8 +7,8 @@ Build a RESTful API service that allows users to `create`, `read`, `update`, and
 ## Getting Started
 
 ### Clone Repository
-- Fork this repository in your GitHub account
-- Clone your fork locally or open in CodeSpaces.
+1. Fork this repository in your GitHub account
+2. Clone your fork locally or open in CodeSpaces.
 
 ```sh
 git clone [REPO_URL]
@@ -18,14 +18,14 @@ cd [REPO_NAME]
 > :bulb: **Note:** Replace [REPO_URL] with the link to your GitHub repository and [REPO_NAME] with the repository's name.
 
 ### Create Database
-- Login to MySQL
+1. Login to MySQL:
 
 ```sh
 mysql -u root -p
 ```
 > :bulb: **Note:** If your root user doesn't have a password set, omit the `-p` flag.
 
-- Create a new database and exit MySQL
+2. Create a new database:
 
 ```sh
 CREATE DATABASE IF NOT EXISTS restapiexercise;
@@ -33,12 +33,13 @@ exit;
 ```
 
 ### Initialise Project
-- Open this [pre-configured Initializr project](https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=21&groupId=com.cbfacademy&artifactId=restapiexercise&name=REST%20API%20Exercise&description=RESTful%20API%20exercise%20using%20Spring%20Boot&packageName=com.cbfacademy.restapiexercise&dependencies=web,data-jpa,mysql,devtools). Review the configured settings, but do not make any changes. Click "Generate" to download a zipped project.
-- Extract the downloaded zip file and copy the *contents* of the folder (**not** the folder itself!) to your local repository. Don't drag-and-drop in Explorer/Finder as there are hidden files which may not be correctly copied across.
-  - macOS / Git Bash: `cp -R [extracted directory]/. [local repo directory]` e.g. `cp -R ~/Downloads/restapiexercise/. ~/Dev/cbfacademy/java-rest-api-exercise` (**IMPORTANT:** the `/.` after the extracted directory path is required for the command to work as intended)
-  - Windows Command Prompt: `xcopy [extracted directory] [local repo directory] /S /H /C /Y`, e.g. `xcopy C:\Users\myaccount\Downloads\restapiexercise C:\Dev\cbfacademy\java-rest-api-exercise /S /H /C /Y`
-- Open your repository in VS Code
-- Add the following values to src/main/resources/application.properties:
+1. Open this [pre-configured Initializr project](https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion=21&groupId=com.cbfacademy&artifactId=restapiexercise&name=REST%20API%20Exercise&description=RESTful%20API%20exercise%20using%20Spring%20Boot&packageName=com.cbfacademy.restapiexercise&dependencies=web,data-jpa,mysql,devtools). Review the configured settings, but do not make any changes. Click "Generate" to download a zipped project.
+2. Ensure that your local repository is the current working directory in the terminal, then extract the downloaded zip file. **IMPORTANT:** Do NOT unzip the archive in (macOS) Finder or (Windows) Explorer as the extracted files won't be correctly positioned.
+   - macOS: `tar -xvf [download directory]/restapiexercise.zip --strip=1 -C .`, e.g. `tar -xvf ~/Downloads/restapiexercise.zip --strip=1 -C .`
+   - Git Bash: `unzip [download directory]/restapiexercise.zip -d /tmp/unzipped && mv /tmp/unzipped/restapiexercise/.[!.]* .`, e.g. `unzip ~/Downloads/restapiexercise.zip -d /tmp/unzipped && mv /tmp/unzipped/restapiexercise/.[!.]* .`
+   - Windows Command Prompt: `tar -xvf [download directory]\restapiexercise.zip --strip=1 -C %cd%`, e.g. `tar -xvf %USERPROFILE%\Downloads\restapiexercise.zip --strip=1 -C %cd%`
+3. Open your repository in VS Code
+4. Add the following values to src/main/resources/application.properties:
 
 ```properties
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
@@ -46,33 +47,29 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.open-in-view=true
 spring.config.import=optional:./local.properties
 ```
-- In order to prevent sensitive values from being committed to version control, create a new file at src/main/resources/local.properties and add the following values: 
+5. In order to prevent sensitive values from being committed to version control, add a new entry to the .gitignore file:
+
+```
+local.properties
+```
+
+6. Create a new file at src/main/resources/local.properties and paste in the following: 
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/restapiexercise
-spring.datasource.username=root # Replace "root" with your db user, if applicable
-spring.datasource.password= # Specify your db user's password, if applicable
+
+# Replace "root" with your database user, if applicable
+spring.datasource.username=root
+
+# Specify your database user's password, if applicable. If your database user doesn't have a password set, delete the line below
+spring.datasource.password=YOUR_MYSQL_PASSWORD
 ```
 
-### Install Dependencies
-
-Open a terminal at the root of the repo directory and run the following command to install the dependencies:
-
-#### macOS / Git Bash
-
-```sh
-./mvnw clean dependency:resolve
-```
-
-#### Windows Command Prompt
-
-```cmd
-mvnw clean dependency:resolve
-```
+7. Replace the username and password values with your MySQL credentials. **IMPORTANT:** Ensure there are no spaces before or after the password.
 
 ### Run Application
 
-To start the API from the terminal, run the following command:
+To start the API, run the following command:
 
 #### macOS / Git Bash
 
@@ -86,12 +83,14 @@ To start the API from the terminal, run the following command:
 mvnw spring-boot:run
 ```
 
-If successful, you should see output that ends similarly to the below
+If successful, you should see output that ends similarly to the following:
 
 ```
 2024-04-12T11:49:59.055-04:00  INFO 39975 --- [REST API Exercise] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
 2024-04-12T11:49:59.059-04:00  INFO 39975 --- [REST API Exercise] [           main] c.c.r.RestApiExerciseApplication         : Started RestApiExerciseApplication in 1.493 seconds (process running for 1.638)
 ```
+
+**IMPORTANT**: If everything is working correctly, the output will appear "stuck" and the command prompt won't return until you stop the application, which should now be running at http://localhost:8080/api/ious.
 
 ### Stop Application
 Stop the application by pressing `Ctrl + C`
@@ -105,12 +104,13 @@ Stop the application by pressing `Ctrl + C`
     - `String lender`
     - `BigDecimal amount`
     - `Instant dateTime`
-3. Ensure the `id` field is set as the primary key and values are generated using the appropriate strategy
-4. Create getters and setters for each field, except `id`, which should only have a getter
-5. Create an `IOURepository` interface that extends `ListCrudRepository<IOU, UUID>`
-6. Ensure local.properties is correctly configured with your database details
-7. Start your API with `./mvnw clean spring-boot:run` (if it's already running, restart it) and confirm there are no errors
-8. Check your database contains an "ious" table with the correct columns and data types
+3. Ensure the `id` field is set as the primary key and values are generated using the appropriate strategy for a `UUID` field
+4. Define a constructor that accepts the following parameters: `IOU(String borrower, String lender, BigDecimal amount, Instant createdAt)`
+5. Define a default (parameterless) constructor that calls the parameterised constructor internally. Consider what appropriate default values should be passed to the parameters
+6. Create getter and setter methods for each field, except `id`, which should only have a getter
+7. Create an `IOURepository` interface that extends `ListCrudRepository<IOU, UUID>`
+8. If it's not already running, start your API with `./mvnw clean spring-boot:run`. Check the output and confirm there are no errors
+9. Check your database contains an "ious" table with the correct columns and data types
 
 ## Exercise 2
 
